@@ -310,9 +310,13 @@ def print_transition_table(dfa):
     print("TABLA DE TRANSICIÓN DE ESTADOS")
     print("="*60)
     
+    # Resumen
+    print(f"\nEstados: {len(states)} | Alfabeto: {{{', '.join(alphabet)}}} | "
+          f"Aceptación: {len(dfa['accepting'])}")
+    
     # Encabezado
     header = "Estado".ljust(15) + "| " + " | ".join(sym.ljust(10) for sym in alphabet)
-    print(header)
+    print("\n" + header)
     print("-" * len(header))
     
     # Filas
