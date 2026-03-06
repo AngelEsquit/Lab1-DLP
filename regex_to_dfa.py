@@ -395,12 +395,14 @@ def main():
             
             while True:
                 print("\n" + "-"*60)
-                cadena = input("\nIngrese una cadena para validar (o Enter para nueva expresión): ").strip()
+                cadena = input("\nIngrese una cadena para validar (o 'nuevo' para nueva expresión): ")
                 
-                if not cadena:
+                if cadena.strip().lower() == 'nuevo':
                     break
                 
-                print(f"\nValidando cadena: '{cadena}'")
+                # Permitir probar cadena vacía (solo Enter)
+                cadena_display = cadena if cadena else "(cadena vacía)"
+                print(f"\nValidando cadena: '{cadena_display}'")
                 print("-" * 40)
                 
                 accepted, path, error = simulator.simulate(cadena)
@@ -412,9 +414,9 @@ def main():
                 if error:
                     print(f"\n✗ Rechazo: {error}")
                 elif accepted:
-                    print(f"\n✓ CADENA ACEPTADA - La cadena '{cadena}' pertenece al lenguaje")
+                    print(f"\n✓ CADENA ACEPTADA - La cadena '{cadena_display}' pertenece al lenguaje")
                 else:
-                    print(f"\n✗ CADENA RECHAZADA - La cadena '{cadena}' NO pertenece al lenguaje")
+                    print(f"\n✗ CADENA RECHAZADA - La cadena '{cadena_display}' NO pertenece al lenguaje")
                     print(f"   El estado final no es de aceptación")
         
         except Exception as e:

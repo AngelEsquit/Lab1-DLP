@@ -20,8 +20,9 @@ python regex_to_dfa.py
 1. Ingresar una expresión regular
 2. Ver la tabla de transición generada
 3. Ingresar cadenas para validar (una por una)
-4. Presionar Enter sin texto para probar otra expresión
-5. Escribir "salir" para terminar
+4. Presionar Enter sin texto para probar cadena vacía
+5. Escribir "nuevo" para probar otra expresión
+6. Escribir "salir" para terminar
 
 ### Ejemplo de sesión:
 ```
@@ -31,7 +32,7 @@ Ingrese una cadena para validar: abcd
 ✓ CADENA ACEPTADA
 Ingrese una cadena para validar: abc
 ✗ CADENA RECHAZADA
-Ingrese una cadena para validar: [Enter]
+Ingrese una cadena para validar: nuevo
 Ingrese una expresión regular: salir
 ```
 
@@ -70,9 +71,9 @@ Este script:
 1. Abrir terminal
 2. Ejecutar: `python regex_to_dfa.py`
 3. Para cada expresión:
-   - Escribir: `a(b|c)*d` → Ver tabla → Probar `abcd` → Probar `abc`
-   - Escribir: `(0|1)+` → Ver tabla → Probar `1010` → Probar cadena vacía (solo Enter)
-   - Escribir: `x(y)?z+` → Ver tabla → Probar `xyz` → Probar `xy`
+   - Escribir: `a(b|c)*d` → Ver tabla → Probar `abcd` → Probar `abc` → Escribir `nuevo`
+   - Escribir: `(0|1)+` → Ver tabla → Probar `1010` → Probar cadena vacía (solo Enter) → Escribir `nuevo`
+   - Escribir: `x(y)?z+` → Ver tabla → Probar `xyz` → Probar `xy` → Escribir `nuevo`
 4. Escribir: `salir`
 
 **Ventajas:**
