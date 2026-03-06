@@ -32,8 +32,15 @@ class RegexParser:
         
     def parse(self):
         """Parsea la expresión regular y retorna el árbol sintáctico"""
+        if not self.regex:
+            raise ValueError("La expresión regular no puede estar vacía")
+        
         # Agregar el símbolo de fin '#'
         tree = self.parse_union()
+        
+        if tree is None:
+            raise ValueError("Error al parsear la expresión regular")
+        
         end_node = Node('symbol', '#')
         end_node.position = self.position_counter
         self.positions[self.position_counter] = '#'
@@ -102,6 +109,8 @@ class RegexParser:
             node = self.parse_union()
             if self.pos < len(self.regex) and self.regex[self.pos] == ')':
                 self.pos += 1
+            else:
+                raise ValueError(f"Falta paréntesis de cierre en posición {self.pos}")
             return node
         
         # Símbolo normal
