@@ -251,11 +251,15 @@ class DFASimulator:
     
     def __init__(self, dfa):
         self.dfa = dfa
+        # Crear mapeo de estados a nombres legibles
+        self.state_names = {}
+        for i, state in enumerate(dfa['states']):
+            self.state_names[state] = f"S{i}"
     
     def simulate(self, string):
         """Simula el AFD con una cadena de entrada"""
         current_state = self.dfa['initial']
-        path = [self.state_to_string(current_state)]
+        path = [self.state_label(current_state)]
         
         for symbol in string:
             if symbol not in self.dfa['alphabet']:
@@ -264,12 +268,18 @@ class DFASimulator:
             key = (current_state, symbol)
             if key in self.dfa['transitions']:
                 current_state = self.dfa['transitions'][key]
-                path.append(f"--{symbol}--> {self.state_to_string(current_state)}")
+                path.append(f"--{symbol}--> {self.state_label(current_state)}")
             else:
-                return False, path, f"No hay transición desde {self.state_to_string(current_state)} con '{symbol}'"
+                return False, path, f"No hay transición desde {self.state_label(current_state)} con '{symbol}'"
         
         accepted = current_state in self.dfa['accepting']
         return accepted, path, None
+    
+    def state_label(self, state):
+        """Retorna el nombre del estado con sus posiciones"""
+        name = self.state_names.get(state, '?')
+        positions = '{' + ','.join(str(p) for p in sorted(state)) + '}'
+        return f"{name} {positions}"
     
     def state_to_string(self, state):
         """Convierte un estado (frozenset) a string legible"""
