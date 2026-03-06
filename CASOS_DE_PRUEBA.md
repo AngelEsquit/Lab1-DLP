@@ -137,13 +137,17 @@ Para cada expresión regular:
 ## Comandos para ejecutar
 
 ```bash
-# Ejecutar el programa
+# Ejecutar el programa interactivo
 python regex_to_dfa.py
 
 # Para cada expresión:
 # 1. Escribir la expresión regular
 # 2. Observar la tabla de transición
 # 3. Ingresar cadena de prueba
-# 4. Presionar Enter para nueva cadena, o Enter sin texto para nueva expresión
-# 5. Escribir 'salir' para terminar el programa
+# 4. Presionar Enter sin texto para probar cadena vacía
+# 5. Escribir 'nuevo' para cambiar de expresión
+# 6. Escribir 'salir' para terminar el programa
+
+# Ejecutar demostración automática (recomendado para video)
+python demo.py
 ```
