@@ -139,6 +139,11 @@ Las tres expresiones anteriores incluyen todos los operadores requeridos:
 Puedes ver el video de demostración del programa en el siguiente enlace:
 [Demostración en YouTube](https://youtu.be/3pyGdixaSvs)
 
+## Repositorio del Proyecto
+
+El código fuente del proyecto está disponible en el siguiente repositorio de GitHub:
+[Repositorio en GitHub](https://github.com/AngelEsquit/Lab1-DLP.git)
+
 ## Autores
 
 Laboratorio 01 - Diseño de Lenguajes de Programación
