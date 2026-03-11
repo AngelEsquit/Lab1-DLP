@@ -6,20 +6,16 @@ Implementación del método directo para construir un Autómata Finito Determini
 
 ## Características
 
-- ✅ Conversión directa de expresión regular a AFD (sin pasar por AFN)
-- ✅ Soporte para todos los operadores requeridos: `|` (unión), concatenación (implícita), `*` (Kleene), `+` (positivo), `?` (opcional)
-- ✅ Generación de tabla de transición de estados
-- ✅ Simulación del AFD para validar cadenas
-- ✅ Visualización del recorrido paso a paso
-- ✅ Sin uso de librerías de expresiones regulares
+- Conversión directa de expresión regular a AFD (sin pasar por AFN)
+- Soporte para todos los operadores requeridos: `|` (unión), concatenación (implícita), `*` (Kleene), `+` (positivo), `?` (opcional)
+- Generación de tabla de transición de estados
+- Simulación del AFD para validar cadenas
+- Visualización del recorrido paso a paso
+- Sin uso de librerías de expresiones regulares
 
 ## Requisitos
 
 - Python 3.6 o superior
-
-## Instalación
-
-No requiere instalación de dependencias adicionales. Solo Python estándar.
 
 ## Uso
 
@@ -45,24 +41,24 @@ python regex_to_dfa.py
 **Expresión regular:** `(+|-)?0|1|2|3|4|5|6|7|8|9+`
 
 Esta expresión acepta números como:
-- ✅ Acepta: `123`, `+456`, `-789`, `0`
-- ❌ Rechaza: ``, `+`, `-`, `abc`
+- Acepta: `123`, `+456`, `-789`, `0`
+- Rechaza: ``, `+`, `-`, `abc`
 
 #### Ejemplo 2: Identificadores en programación
 
 **Expresión regular:** `(a|b|c|d|e)(a|b|c|d|e|0|1|2|3|4)*`
 
 Esta expresión acepta identificadores que comienzan con letra:
-- ✅ Acepta: `a`, `abc`, `a1b2`, `variable123`
-- ❌ Rechaza: ``, `1abc`, `123`
+- Acepta: `a`, `abc`, `a1b2`, `variable123`
+- Rechaza: ``, `1abc`, `123`
 
 #### Ejemplo 3: Cadenas con 'ab' repetido
 
 **Expresión regular:** `(ab)+`
 
 Esta expresión acepta una o más repeticiones de 'ab':
-- ✅ Acepta: `ab`, `abab`, `ababab`
-- ❌ Rechaza: ``, `a`, `b`, `aba`, `ba`
+- Acepta: `ab`, `abab`, `ababab`
+- Rechaza: ``, `a`, `b`, `aba`, `ba`
 
 ## Algoritmo del Método Directo
 
@@ -112,31 +108,36 @@ regex_to_dfa.py
 
 Acepta 'a' seguido de cero o más 'b' o 'c', terminando en 'd'.
 
-- ✅ Acepta: `ad`, `abd`, `acd`, `abcd`, `acbd`, `abbbbcd`
-- ❌ Rechaza: ``, `a`, `d`, `ab`, `abc`
+- Acepta: `ad`, `abd`, `acd`, `abcd`, `acbd`, `abbbbcd`
+- Rechaza: ``, `a`, `d`, `ab`, `abc`
 
 ### Expresión 2: `(0|1)+`
 
 Acepta una o más ocurrencias de '0' o '1' (números binarios no vacíos).
 
-- ✅ Acepta: `0`, `1`, `01`, `10`, `1010`, `111000`
-- ❌ Rechaza: ``, `2`, `012`, `abc`
+- Acepta: `0`, `1`, `01`, `10`, `1010`, `111000`
+- Rechaza: ``, `2`, `012`, `abc`
 
 ### Expresión 3: `x(y)?z+`
 
 Acepta 'x', opcionalmente 'y', seguido de una o más 'z'.
 
-- ✅ Acepta: `xz`, `xzz`, `xyz`, `xyzz`, `xyzzz`
-- ❌ Rechaza: ``, `x`, `xy`, `xzy`, `yz`
+- Acepta: `xz`, `xzz`, `xyz`, `xyzz`, `xyzzz`
+- Rechaza: ``, `x`, `xy`, `xzy`, `yz`
 
 ## Validación de operadores
 
 Las tres expresiones anteriores incluyen todos los operadores requeridos:
-- ✅ Unión `|`: presente en expresiones 1 y 2  
-- ✅ Concatenación: presente en todas
-- ✅ Kleene `*`: presente en expresión 1
-- ✅ Positivo `+`: presente en expresiones 2 y 3
-- ✅ Opcional `?`: presente en expresión 3
+- Unión `|`: presente en expresiones 1 y 2  
+- Concatenación: presente en todas
+- Kleene `*`: presente en expresión 1
+- Positivo `+`: presente en expresiones 2 y 3
+- Opcional `?`: presente en expresión 3
+
+## Video de Demostración
+
+Puedes ver el video de demostración del programa en el siguiente enlace:
+[Demostración en YouTube](https://youtu.be/3pyGdixaSvs)
 
 ## Autores
 
@@ -144,7 +145,7 @@ Laboratorio 01 - Diseño de Lenguajes de Programación
 
 ## Notas importantes
 
-- ⚠️ No se utilizan librerías de expresiones regulares
-- ⚠️ La implementación es completamente manual
-- ⚠️ El video de demostración no debe exceder 5 minutos
-- ⚠️ Fecha de entrega: jueves 12 de marzo de 2026, 19:00 horas
+- No se utilizan librerías de expresiones regulares
+- La implementación es completamente manual
+- El video de demostración no debe exceder 5 minutos
+- Fecha de entrega: jueves 12 de marzo de 2026, 19:00 horas

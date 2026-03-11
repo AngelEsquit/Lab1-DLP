@@ -21,11 +21,11 @@ Para cada expresión regular:
 
 ### Cadenas para probar:
 
-✅ **Cadena que SÍ pertenece:** `abcd`
+**Cadena que SÍ pertenece:** `abcd`
 - Recorrido esperado: a → b → c → d
 - Resultado: ACEPTADA
 
-❌ **Cadena que NO pertenece:** `abc`
+**Cadena que NO pertenece:** `abc`
 - Razón: Falta la 'd' final
 - Resultado: RECHAZADA
 
@@ -46,11 +46,11 @@ Para cada expresión regular:
 
 ### Cadenas para probar:
 
-✅ **Cadena que SÍ pertenece:** `1010`
+**Cadena que SÍ pertenece:** `1010`
 - Recorrido: 1 → 0 → 1 → 0
 - Resultado: ACEPTADA
 
-❌ **Cadena que NO pertenece:** (cadena vacía: presionar Enter sin escribir nada)
+**Cadena que NO pertenece:** (cadena vacía: presionar Enter sin escribir nada)
 - Razón: Se requiere al menos un símbolo
 - Resultado: RECHAZADA
 
@@ -71,11 +71,11 @@ Para cada expresión regular:
 
 ### Cadenas para probar:
 
-✅ **Cadena que SÍ pertenece:** `xyz`
+**Cadena que SÍ pertenece:** `xyz`
 - Recorrido: x → y → z
 - Resultado: ACEPTADA
 
-❌ **Cadena que NO pertenece:** `xy`
+**Cadena que NO pertenece:** `xy`
 - Razón: Falta al menos una 'z' al final
 - Resultado: RECHAZADA
 
@@ -87,7 +87,7 @@ Para cada expresión regular:
 
 ## Resumen de Operadores Cubiertos
 
-✅ Todos los operadores requeridos están presentes:
+Todos los operadores requeridos están presentes:
 
 1. **Unión `|`**: Expresiones 1 y 2
 2. **Concatenación (implícita)**: Todas las expresiones
