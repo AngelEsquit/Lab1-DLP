@@ -137,20 +137,9 @@ Las tres expresiones anteriores incluyen todos los operadores requeridos:
 ## Video de Demostración
 
 Puedes ver el video de demostración del programa en el siguiente enlace:
-[Demostración en YouTube](https://youtu.be/3pyGdixaSvs)
-
-## Repositorio del Proyecto
-
-El código fuente del proyecto está disponible en el siguiente repositorio de GitHub:
-[Repositorio en GitHub](https://github.com/AngelEsquit/Lab1-DLP.git)
-
-## Autores
-
-Laboratorio 01 - Diseño de Lenguajes de Programación
+[Demostración en YouTube](https://youtu.be/S5q2BTAbJwI)
 
 ## Notas importantes
 
 - No se utilizan librerías de expresiones regulares
 - La implementación es completamente manual
-- El video de demostración no debe exceder 5 minutos
-- Fecha de entrega: jueves 12 de marzo de 2026, 19:00 horas
