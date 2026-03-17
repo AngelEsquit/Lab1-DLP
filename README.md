@@ -1,8 +1,8 @@
-# Laboratorio 01 - Conversión Directa de Expresión Regular a AFD
+# Laboratorio 2 - Minimización de AFD
 
 ## Descripción
 
-Implementación del método directo para construir un Autómata Finito Determinista (AFD) a partir de una expresión regular y simular su funcionamiento.
+Implementación del algoritmo de minimización de Autómatas Finitos Deterministas (AFD) para obtener un AFD equivalente con el número mínimo de estados posibles. El programa construye un AFD a partir de una expresión regular usando el método directo, luego lo minimiza y compara los resultados.
 
 ## Características
 

@@ -1,6 +1,6 @@
 """
-Laboratorio 01 - Conversión directa de una expresión regular a un AFD
-Implementación del método directo para construir un AFD a partir de una expresión regular
+Laboratorio 2 - Minimización de AFD
+Implementación del algoritmo de minimización para obtener un AFD con número mínimo de estados
 """
 
 class Node:
@@ -295,8 +295,178 @@ class DFASimulator:
         return '{' + ','.join(str(p) for p in sorted(state)) + '}'
 
 
+class MinimizedDFASimulator:
+    """Simulador de AFD minimizado (con estados enteros)."""
+
+    def __init__(self, dfa_min):
+        self.dfa = dfa_min
+
+    def simulate(self, string):
+        """Simula el AFD minimizado con una cadena de entrada."""
+        current_state = self.dfa['initial']
+        path = [f"S{current_state}"]
+
+        for symbol in string:
+            if symbol not in self.dfa['alphabet']:
+                return False, path, f"Símbolo '{symbol}' no está en el alfabeto"
+
+            key = (current_state, symbol)
+            if key in self.dfa['transitions']:
+                current_state = self.dfa['transitions'][key]
+                path.append(f"--{symbol}--> S{current_state}")
+            else:
+                return False, path, f"No hay transición desde S{current_state} con '{symbol}'"
+
+        accepted = current_state in self.dfa['accepting']
+        return accepted, path, None
+
+
+class DFAMinimizer:
+    """Minimizador de AFD usando algoritmo de particionamiento."""
+
+    def __init__(self, dfa):
+        self.dfa = dfa
+        self.partitions = []
+
+    def _get_partition_index(self, state):
+        for i, partition in enumerate(self.partitions):
+            if state in partition:
+                return i
+        return -1
+
+    def _split_partition(self, partition):
+        signatures = {}
+
+        for state in partition:
+            sig = []
+
+            for symbol in sorted(self.dfa['alphabet']):
+                key = (state, symbol)
+
+                if key in self.dfa['transitions']:
+                    next_state = self.dfa['transitions'][key]
+                    partition_idx = self._get_partition_index(next_state)
+                else:
+                    partition_idx = -1
+
+                sig.append((symbol, partition_idx))
+
+            sig = tuple(sig)
+            if sig not in signatures:
+                signatures[sig] = set()
+            signatures[sig].add(state)
+
+        return [frozenset(group) for group in signatures.values()]
+
+    def _build_minimized_dfa(self):
+        state_to_partition = {}
+        for i, partition in enumerate(self.partitions):
+            for state in partition:
+                state_to_partition[state] = i
+
+        new_states = list(range(len(self.partitions)))
+        initial_partition = state_to_partition[self.dfa['initial']]
+
+        accepting_partition_indices = set()
+        for accepting_state in self.dfa['accepting']:
+            accepting_partition_indices.add(state_to_partition[accepting_state])
+
+        new_transitions = {}
+        for i, partition in enumerate(self.partitions):
+            representative = next(iter(partition))
+            for symbol in self.dfa['alphabet']:
+                key = (representative, symbol)
+                if key in self.dfa['transitions']:
+                    next_state = self.dfa['transitions'][key]
+                    to_partition = state_to_partition[next_state]
+                    new_transitions[(i, symbol)] = to_partition
+
+        return {
+            'states': new_states,
+            'alphabet': list(self.dfa['alphabet']),
+            'transitions': new_transitions,
+            'initial': initial_partition,
+            'accepting': sorted(list(accepting_partition_indices)),
+            'partitions': self.partitions,
+        }
+
+    def minimize(self):
+        """Minimiza el AFD usando el algoritmo de particionamiento."""
+        states = self.dfa['states']
+        accepting = frozenset(self.dfa['accepting'])
+        non_accepting = frozenset(s for s in states if s not in accepting)
+
+        self.partitions = []
+        if non_accepting:
+            self.partitions.append(non_accepting)
+        if accepting:
+            self.partitions.append(accepting)
+
+        changed = True
+        while changed:
+            changed = False
+            new_partitions = []
+
+            for partition in self.partitions:
+                sub_partitions = self._split_partition(partition)
+
+                if len(sub_partitions) > 1:
+                    changed = True
+
+                new_partitions.extend(sub_partitions)
+
+            self.partitions = new_partitions
+
+        return self._build_minimized_dfa()
+
+
+def print_transition_table_minimized(dfa_min):
+    """Imprime la tabla de transición del AFD minimizado."""
+    states = dfa_min['states']
+    alphabet = dfa_min['alphabet']
+    transitions = dfa_min['transitions']
+    
+    print("\n" + "="*60)
+    print("TABLA DE TRANSICIÓN - AFD MINIMIZADO")
+    print("="*60)
+    
+    # Resumen
+    print(f"\nEstados: {len(states)} | Alfabeto: {{{', '.join(alphabet)}}} | "
+          f"Aceptación: {len(dfa_min['accepting'])}")
+    
+    # Encabezado
+    header = "Estado".ljust(15) + "| " + " | ".join(sym.ljust(10) for sym in alphabet)
+    print("\n" + header)
+    print("-" * len(header))
+    
+    # Filas
+    for state in states:
+        # Marcar estado inicial y de aceptación
+        markers = []
+        if state == dfa_min['initial']:
+            markers.append('->')
+        if state in dfa_min['accepting']:
+            markers.append('*')
+        
+        marker_str = ''.join(markers)
+        state_str = f"{marker_str}S{state}".ljust(15)
+        
+        row = [state_str]
+        for symbol in alphabet:
+            key = (state, symbol)
+            if key in transitions:
+                next_state = transitions[key]
+                row.append(f"S{next_state}".ljust(10))
+            else:
+                row.append("-".ljust(10))
+        
+        print("| ".join(row))
+    
+    print("\nLeyenda: -> = Estado inicial, * = Estado de aceptación")
+
+
 def print_transition_table(dfa):
-    """Imprime la tabla de transición de estados"""
+    """Imprime la tabla de transición del AFD original."""
     states = dfa['states']
     alphabet = dfa['alphabet']
     transitions = dfa['transitions']
@@ -307,7 +477,7 @@ def print_transition_table(dfa):
         state_names[state] = f"S{i}"
     
     print("\n" + "="*60)
-    print("TABLA DE TRANSICIÓN DE ESTADOS")
+    print("TABLA DE TRANSICIÓN - AFD ORIGINAL")
     print("="*60)
     
     # Resumen
@@ -354,10 +524,9 @@ def print_transition_table(dfa):
 
 
 def main():
-    """Programa principal"""
+    """Programa principal interactivo."""
     print("="*60)
-    print("CONVERSIÓN DIRECTA DE EXPRESIÓN REGULAR A AFD")
-    print("Método Directo - Laboratorio 01")
+    print("MINIMIZACIÓN DE AFD - LABORATORIO 2")
     print("="*60)
     
     while True:
@@ -378,31 +547,74 @@ def main():
             parser = RegexParser(regex)
             tree = parser.parse()
             print(f"   ✓ Árbol sintáctico construido")
-            print(f"   ✓ Posiciones encontradas: {len(parser.positions)}")
             
-            # 2. Construir el AFD
-            print("\n2. Construyendo AFD usando método directo...")
+            # 2. Construir el AFD ORIGINAL
+            print("\n2. Construyendo AFD (método directo)...")
             builder = DFABuilder(tree, parser.positions)
-            dfa = builder.build_dfa()
-            print(f"   ✓ AFD construido con {len(dfa['states'])} estados")
-            print(f"   ✓ Alfabeto: {{{', '.join(dfa['alphabet'])}}}")
+            dfa_original = builder.build_dfa()
+            num_states_original = len(dfa_original['states'])
+            num_transitions_original = len(dfa_original['transitions'])
             
-            # 3. Mostrar tabla de transición
-            print_transition_table(dfa)
+            print(f"   ✓ AFD construido con {num_states_original} estados")
+            print(f"   ✓ {num_transitions_original} transiciones")
+            print(f"   ✓ Alfabeto: {{{', '.join(dfa_original['alphabet'])}}}")
             
-            # 4. Simular con cadenas
-            simulator = DFASimulator(dfa)
+            # 3. Mostrar tabla de transición ORIGINAL
+            print_transition_table(dfa_original)
+            
+            # 4. MINIMIZAR el AFD
+            print("\n3. Minimizando AFD...")
+            minimizer = DFAMinimizer(dfa_original)
+            dfa_minimized = minimizer.minimize()
+            num_states_minimized = len(dfa_minimized['states'])
+            num_transitions_minimized = len(dfa_minimized['transitions'])
+            
+            print(f"   ✓ AFD minimizado con {num_states_minimized} estados")
+            print(f"   ✓ {num_transitions_minimized} transiciones")
+            
+            # 5. Mostrar tabla de transición MINIMIZADO
+            print_transition_table_minimized(dfa_minimized)
+            
+            # 6. COMPARACIÓN
+            print("\n" + "="*60)
+            print("COMPARACIÓN DE RESULTADOS")
+            print("="*60)
+            print(f"\nAFD Original:")
+            print(f"  • Estados: {num_states_original}")
+            print(f"  • Transiciones: {num_transitions_original}")
+            
+            print(f"\nAFD Minimizado:")
+            print(f"  • Estados: {num_states_minimized}")
+            print(f"  • Transiciones: {num_transitions_minimized}")
+            
+            reduction_states = num_states_original - num_states_minimized
+            reduction_transitions = num_transitions_original - num_transitions_minimizado
+            
+            print(f"\nReducción:")
+            print(f"  • Estados reducidos: {reduction_states} ({100*reduction_states/num_states_original:.1f}%)")
+            print(f"  • Transiciones reducidas: {reduction_transitions}")
+            
+            if reduction_states == 0:
+                print(f"\n  ℹ El AFD original ya es MÍNIMO (sin cambios)")
+            else:
+                print(f"\n  ✓ El AFD se minimizó exitosamente")
+            
+            # 7. Simular con el AFD minimizado
+            simulator = MinimizedDFASimulator(dfa_minimized)
             
             while True:
                 print("\n" + "-"*60)
-                cadena = input("\nIngrese una cadena para validar (o 'nuevo' para nueva expresión): ")
+                cadena = input("\nIngrese cadena para validar (o 'nuevo' para nueva expresión): ").strip()
                 
-                if cadena.strip().lower() == 'nuevo':
+                if cadena.lower() == 'nuevo':
                     break
                 
-                # Permitir probar cadena vacía (solo Enter)
-                cadena_display = cadena if cadena else "(cadena vacía)"
-                print(f"\nValidando cadena: '{cadena_display}'")
+                if not cadena:
+                    cadena_display = "(cadena vacía)"
+                else:
+                    cadena_display = cadena
+                
+                print(f"\nValidando: '{cadena_display}'")
                 print("-" * 40)
                 
                 accepted, path, error = simulator.simulate(cadena)
@@ -412,12 +624,11 @@ def main():
                     print(f"  {step}")
                 
                 if error:
-                    print(f"\n✗ Rechazo: {error}")
+                    print(f"\n✗ {error}")
                 elif accepted:
-                    print(f"\n✓ CADENA ACEPTADA - La cadena '{cadena_display}' pertenece al lenguaje")
+                    print(f"\n✓ ACEPTADA - Pertenece al lenguaje")
                 else:
-                    print(f"\n✗ CADENA RECHAZADA - La cadena '{cadena_display}' NO pertenece al lenguaje")
-                    print(f"   El estado final no es de aceptación")
+                    print(f"\n✗ RECHAZADA - No pertenece al lenguaje")
         
         except Exception as e:
             print(f"\n✗ Error: {e}")
