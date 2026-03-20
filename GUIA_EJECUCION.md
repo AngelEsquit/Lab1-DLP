@@ -1,4 +1,4 @@
-# Guía de Ejecución - Lab 01
+# Guía de Ejecución - Lab 2
 
 ## Archivos del Proyecto
 
@@ -38,26 +38,25 @@ Ingrese una expresión regular: salir
 
 ## Opción 2: Demo Automática (Recomendado para el Video)
 
-Para ejecutar la demostración automática con las 3 expresiones regulares y sus casos de prueba:
+Para ejecutar la demostración automática con 2 expresiones regulares (una que no se reduce y otra que sí se reduce):
 
 ```bash
-python demo.py
+python3 demo.py
 ```
 
 Este script:
-- ✅ Ejecuta automáticamente las 3 expresiones regulares requeridas
-- ✅ Muestra la tabla de transición de cada una
-- ✅ Valida 4 cadenas por expresión (2 que aceptan, 2 que rechazan)
-- ✅ Muestra el recorrido completo del AFD para cada cadena
-- ✅ Verifica que todos los operadores estén cubiertos
-- ⏱️ Duración aproximada: 3-4 minutos (perfecto para el video)
+- ✅ Ejecuta automáticamente 2 expresiones para cubrir la rúbrica de Lab2
+- ✅ Muestra la tabla de transición del AFD original y del minimizado
+- ✅ Compara estados y transiciones antes/después de minimizar
+- ✅ Valida una cadena aceptada y una rechazada por cada expresión
+- ⏱️ Duración aproximada: 2-3 minutos
 
 ## Para el Video de Demostración
 
 ### Opción A: Usar demo.py (Más fácil)
 
 1. Abrir terminal
-2. Ejecutar: `python demo.py`
+2. Ejecutar: `python3 demo.py`
 3. Presionar Enter cuando se solicite para avanzar entre demostraciones
 4. Grabar toda la ejecución
 
@@ -69,11 +68,10 @@ Este script:
 ### Opción B: Usar regex_to_dfa.py (Más interactivo)
 
 1. Abrir terminal
-2. Ejecutar: `python regex_to_dfa.py`
+2. Ejecutar: `python3 regex_to_dfa.py`
 3. Para cada expresión:
-   - Escribir: `a(b|c)*d` → Ver tabla → Probar `abcd` → Probar `abc` → Escribir `nuevo`
-   - Escribir: `(0|1)+` → Ver tabla → Probar `1010` → Probar cadena vacía (solo Enter) → Escribir `nuevo`
-   - Escribir: `x(y)?z+` → Ver tabla → Probar `xyz` → Probar `xy` → Escribir `nuevo`
+   - Escribir: `a|b` → Ver tabla original y minimizada → Probar `a` → Probar `ab` → Escribir `nuevo`
+   - Escribir: `(a|aa)*` → Ver tabla original y minimizada → Probar `aa` → Probar `b` → Escribir `nuevo`
 4. Escribir: `salir`
 
 **Ventajas:**
@@ -82,31 +80,17 @@ Este script:
 
 ## Expresiones Regulares para el Video
 
-Las tres expresiones preparadas son:
+### 1. `a|b` (AFD ya mínimo)
+- **Acepta:** `a`, `b`
+- **Rechaza:** `ab`, `ba`, cadena vacía
 
-### 1. `a(b|c)*d`
-- **Acepta:** `abcd`, `ad`, `abbbcd`
-- **Rechaza:** `abc`, `a`, `d`
+### 2. `(a|aa)*` (AFD se reduce)
+- **Acepta:** cadena vacía, `a`, `aa`, `aaa`
+- **Rechaza:** `b`, `ab`, `ba`
 
-### 2. `(0|1)+`
-- **Acepta:** `1010`, `0`, `111000`
-- **Rechaza:** (cadena vacía), `2`, `abc`
-
-### 3. `x(y)?z+`
-- **Acepta:** `xyz`, `xz`, `xyzzzz`
-- **Rechaza:** `xy`, `x`, `yz`
-
-## Verificación de Operadores
-
-✅ Todos los operadores requeridos están presentes:
-
-| Operador | Expresión |
-|----------|-----------|
-| Unión `\|` | Expresiones 1 y 2 |
-| Concatenación | Todas |
-| Kleene `*` | Expresión 1 |
-| Positivo `+` | Expresiones 2 y 3 |
-| Opcional `?` | Expresión 3 |
+Estas dos expresiones cumplen el requisito clave de Lab2:
+- un caso donde la minimización no cambia el autómata,
+- y otro donde sí reduce estados/transiciones.
 
 ## Estructura de la Salida
 
@@ -130,7 +114,7 @@ El programa muestra:
 
 ## Consejos para el Video
 
-1. **Tiempo:** El demo.py dura ~3-4 minutos (perfecto para el límite de 5 min)
+1. **Tiempo:** El demo.py dura ~2-3 minutos (perfecto para el límite de 5 min)
 2. **Claridad:** Usar terminal en pantalla completa con fuente grande
 3. **Narración sugerida:**
    - Inicio: "Demostraremos el método directo para construir un AFD"
@@ -141,8 +125,8 @@ El programa muestra:
 ## Solución de Problemas
 
 ### Error: "python: command not found"
-- Verificar que Python esté instalado: `python --version`
-- En algunos sistemas usar: `python3` en lugar de `python`
+- Verificar que Python esté instalado: `python3 --version`
+- Usar `python3` en lugar de `python`
 
 ### El programa rechaza todas las cadenas
 - Verificar que la expresión regular esté bien escrita
@@ -155,15 +139,16 @@ El programa muestra:
 
 ## Entrega
 
-**Fecha límite:** Jueves 12 de marzo de 2025, 19:00 horas
+**Fecha límite:** Jueves 19 de marzo de 2026, 19:00 horas
 
 **Verificación antes de entregar:**
 ✅ Video grabado y subido a YouTube (≤ 5 minutos)
 ✅ Código fuente incluido
-✅ 3 expresiones regulares demostradas
-✅ Tabla de transición mostrada para cada una
+✅ 2 expresiones regulares demostradas
+✅ AFD original y AFD minimizado mostrados para cada expresión
+✅ Comparación de estados y transiciones mostrada en ambos casos
 ✅ 1 cadena aceptada y 1 rechazada por expresión
-✅ Todos los operadores presentes (|, concatenación, *, +, ?)
+✅ Un caso "ya mínimo" y otro caso "sí se reduce"
 ✅ Sin uso de librerías de regex
 
 ¡Éxito con el laboratorio! 🎉

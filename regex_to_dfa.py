@@ -588,7 +588,7 @@ def main():
             print(f"  • Transiciones: {num_transitions_minimized}")
             
             reduction_states = num_states_original - num_states_minimized
-            reduction_transitions = num_transitions_original - num_transitions_minimizado
+            reduction_transitions = num_transitions_original - num_transitions_minimized
             
             print(f"\nReducción:")
             print(f"  • Estados reducidos: {reduction_states} ({100*reduction_states/num_states_original:.1f}%)")

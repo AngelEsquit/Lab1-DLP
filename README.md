@@ -22,7 +22,13 @@ Implementación del algoritmo de minimización de Autómatas Finitos Determinist
 ### Ejecutar el programa
 
 ```bash
-python regex_to_dfa.py
+python3 regex_to_dfa.py
+```
+
+### Ejecutar la demo automática (recomendado para el video)
+
+```bash
+python3 demo.py
 ```
 
 ### Operadores soportados
@@ -102,42 +108,30 @@ regex_to_dfa.py
 └── main()              # Programa principal
 ```
 
-## Ejemplos para el video de demostración
+## Ejemplos para el video de demostración (Lab2)
 
-### Expresión 1: `a(b|c)*d`
+Para cumplir la rúbrica del laboratorio se muestran dos casos:
 
-Acepta 'a' seguido de cero o más 'b' o 'c', terminando en 'd'.
+### Expresión 1 (AFD ya mínimo): `a|b`
+- Acepta: `a`, `b`
+- Rechaza: `ab`, `ba`, ``
 
-- Acepta: `ad`, `abd`, `acd`, `abcd`, `acbd`, `abbbbcd`
-- Rechaza: ``, `a`, `d`, `ab`, `abc`
+### Expresión 2 (AFD se reduce): `(a|aa)*`
+- Acepta: ``, `a`, `aa`, `aaa`
+- Rechaza: `b`, `ab`, `ba`
 
-### Expresión 2: `(0|1)+`
-
-Acepta una o más ocurrencias de '0' o '1' (números binarios no vacíos).
-
-- Acepta: `0`, `1`, `01`, `10`, `1010`, `111000`
-- Rechaza: ``, `2`, `012`, `abc`
-
-### Expresión 3: `x(y)?z+`
-
-Acepta 'x', opcionalmente 'y', seguido de una o más 'z'.
-
-- Acepta: `xz`, `xzz`, `xyz`, `xyzz`, `xyzzz`
-- Rechaza: ``, `x`, `xy`, `xzy`, `yz`
-
-## Validación de operadores
-
-Las tres expresiones anteriores incluyen todos los operadores requeridos:
-- Unión `|`: presente en expresiones 1 y 2  
-- Concatenación: presente en todas
-- Kleene `*`: presente en expresión 1
-- Positivo `+`: presente en expresiones 2 y 3
-- Opcional `?`: presente en expresión 3
+En el primer caso, el AFD minimizado no cambia.
+En el segundo caso, la minimización reduce estados y transiciones.
 
 ## Video de Demostración
 
 Puedes ver el video de demostración del programa en el siguiente enlace:
-[Demostración en YouTube](https://youtu.be/S5q2BTAbJwI)
+[Demostración en YouTube](https://youtu.be/CwewtK9koVA)
+
+## Branch del laboratorio
+
+Código de la entrega de Lab2 en GitHub:
+[Branch Lab2](https://github.com/AngelEsquit/Lab1-DLP/tree/Lab2)
 
 ## Notas importantes
 

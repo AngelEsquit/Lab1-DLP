@@ -84,8 +84,8 @@ def main():
 
     input("\nPresione Enter para continuar...")
 
-    # Caso que se usa para mostrar minimización
-    demo_minimizacion(2, "(a|b)*abb", "abb", "aba")
+    # Caso que sí se reduce al minimizar
+    demo_minimizacion(2, "(a|aa)*", "aa", "b")
 
 
 if __name__ == "__main__":
